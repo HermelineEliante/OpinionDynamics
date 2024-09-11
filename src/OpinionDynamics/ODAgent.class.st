@@ -42,9 +42,10 @@ ODAgent >> allAgentsFromWork [
 
 { #category : 'control' }
 ODAgent >> allAgentsFromZone: aPlaceString [
-	| listOfAgents |
+	| listOfAgents place |
 	listOfAgents := OrderedCollection new.
-	(self perform: aPlaceString asSymbol) do: [ :pla | listOfAgents addAll: pla patch allOccupants ].
+	place := self perform: aPlaceString asSymbol.
+	listOfAgents addAll: (place cells flatCollect: #allOccupants).
 	listOfAgents remove: self ifAbsent: [ nil ].
 	^ listOfAgents
 	
@@ -75,19 +76,19 @@ ODAgent >> allCitizenFromWork [
 { #category : 'control' }
 ODAgent >> goHome [
 
-	self moveTo: (self selectRandomlyFrom: home) patch
+	self moveTo: (self selectRandomlyFrom: home cells)
 ]
 
 { #category : 'control' }
 ODAgent >> goSocialPlace [
 
-	self moveTo: (self selectRandomlyFrom: socialPlace) patch
+	self moveTo: (self selectRandomlyFrom: socialPlace cells)
 ]
 
 { #category : 'control' }
 ODAgent >> goWork [
 
-	self moveTo: (self selectRandomlyFrom: work) patch
+	self moveTo: (self selectRandomlyFrom: work cells)
 ]
 
 { #category : 'accessing' }
@@ -100,13 +101,6 @@ ODAgent >> home [
 ODAgent >> home: anObject [
 
 	home := anObject
-]
-
-{ #category : 'control' }
-ODAgent >> initialize [
-
-	super initialize.
-	home := OrderedCollection new . work := OrderedCollection new . socialPlace := OrderedCollection new 
 ]
 
 { #category : 'accessing' }

@@ -1,12 +1,32 @@
 Class {
 	#name : 'ODPlace',
-	#superclass : 'CMLocatedObject',
+	#superclass : 'Object',
 	#instVars : [
-		'probabilityToConvince'
+		'probabilityToConvince',
+		'cells'
 	],
 	#category : 'OpinionDynamics',
 	#package : 'OpinionDynamics'
 }
+
+{ #category : 'accessing' }
+ODPlace >> cells [
+
+	^ cells
+]
+
+{ #category : 'accessing' }
+ODPlace >> cells: anObject [
+
+	cells := anObject
+]
+
+{ #category : 'initialization' }
+ODPlace >> initialize [
+
+	super initialize.
+	cells := OrderedCollection new
+]
 
 { #category : 'accessing' }
 ODPlace >> probabilityToConvince [

@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'citizens',
 		'politicians',
-		'cells'
+		'cells',
+		'home',
+		'work',
+		'socialPlace'
 	],
 	#category : 'OpinionDynamics',
 	#package : 'OpinionDynamics'
@@ -26,6 +29,7 @@ OpinionDynamics >> cells [
 
 { #category : 'accessing' }
 OpinionDynamics >> citizens [
+
 	<getterFor: #ODCitizen>
 	^ citizens
 ]
@@ -40,12 +44,11 @@ OpinionDynamics >> createHome [
 		               line2: 8
 		               andColumn1: 2
 		               column2: 8.
-	targetCells do: [ :c |
-		c place: ODHome new.
-		c place moveTo: c ].
+		
+	targetCells do: [ :c | c place: home ].
+	home cells: targetCells.
 
-	self allAgents do: [ :ag |
-		ag home: (targetCells collect: [ :c | c place ])]
+	self allAgents do: [ :agent | agent home: home ]
 ]
 
 { #category : 'initialize-release' }
@@ -58,12 +61,11 @@ OpinionDynamics >> createSocialPlace [
 		               line2: 28
 		               andColumn1: 8
 		               column2: 16.
-	targetCells do: [ :c |
-		c place: ODSocialPlace new.
-		c place moveTo: c ].
 
-	self allAgents do: [ :ag |
-		ag socialPlace: (targetCells collect: [ :c | c place ]) ]
+	targetCells do: [ :c | c place: socialPlace ].
+	socialPlace cells: targetCells.
+	
+	self allAgents do: [ :agent | agent socialPlace: socialPlace ]
 ]
 
 { #category : 'initialize-release' }
@@ -76,12 +78,11 @@ OpinionDynamics >> createWork [
 		               line2: 8
 		               andColumn1: 20
 		               column2: 28.
-	targetCells do: [ :c |
-		c place: ODWork new.
-		c place moveTo: c ].
 
-	self allAgents do: [ :ag |
-		ag work: (targetCells collect: [ :c | c place ]) ]
+	targetCells do: [ :c | c place: work ].
+	work cells: targetCells.
+	
+	self allAgents do: [ :agent | agent work: work ]
 ]
 
 { #category : 'initialize-release' }
@@ -93,6 +94,11 @@ OpinionDynamics >> init [
 		numberOfColumns: 30
 		neighbourhood: 8
 		closed: true.
+
+	home := ODHome new.
+	work := ODWork new.
+	socialPlace := ODSocialPlace new.
+
 	self createN: 10 randomlyLocatedEntities: ODCitizen.
 	self createN: 3 randomlyLocatedEntities: ODPolitician.
 	"set the home"
@@ -101,10 +107,8 @@ OpinionDynamics >> init [
 	self createWork.
 	"set the resto"
 	self createSocialPlace.
-	"self allAgents do: [ :ag | ag goHome ]."
+
 	self allAgents do: #goHome
-
-
 ]
 
 { #category : 'initialization' }
@@ -126,6 +130,7 @@ OpinionDynamics >> oneHourStep [
 
 { #category : 'accessing' }
 OpinionDynamics >> politicians [
+
 	<getterFor: #ODPolitician>
 	^ politicians
 ]
