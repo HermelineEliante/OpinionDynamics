@@ -43,7 +43,7 @@ OpinionDynamics >> initialize [
 	super initialize.
 	politicians := OrderedCollection new.
 	citizens := OrderedCollection new.
-	cells := OrderedCollection new
+	cells := OrderedCollection new.
 ]
 
 { #category : 'accessing' }
