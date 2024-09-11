@@ -9,7 +9,7 @@ Class {
 	#package : 'OpinionDynamics'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'control' }
 ODCitizen >> beConvinced [
 
 	opinion := true

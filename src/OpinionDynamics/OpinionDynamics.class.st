@@ -7,7 +7,8 @@ Class {
 		'cells',
 		'home',
 		'work',
-		'socialPlace'
+		'socialPlace',
+		'hourOfDay'
 	],
 	#category : 'OpinionDynamics',
 	#package : 'OpinionDynamics'
@@ -29,7 +30,6 @@ OpinionDynamics >> cells [
 
 { #category : 'accessing' }
 OpinionDynamics >> citizens [
-
 	<getterFor: #ODCitizen>
 	^ citizens
 ]
@@ -89,6 +89,8 @@ OpinionDynamics >> createWork [
 OpinionDynamics >> init [
 
 	<init>
+	hourOfDay := 0.
+	
 	self
 		createGridNumberOfRows: 30
 		numberOfColumns: 30
@@ -123,21 +125,26 @@ OpinionDynamics >> initialize [
 { #category : 'stepping' }
 OpinionDynamics >> oneHourStep [
 	"interaction process for the politicals"
+
 	<control>
+	hourOfDay := hourOfDay + 1 \\ 24.
+	politicians do: #interactionProcess.
 	
-	politicians do: #interactionProcess
+	(hourOfDay between: 7 and: 12)
+		ifTrue: [ self allAgents do: #goWork ]
+		ifFalse: [ self allAgents do: #goHome ]
 ]
 
 { #category : 'accessing' }
 OpinionDynamics >> politicians [
-
 	<getterFor: #ODPolitician>
 	^ politicians
 ]
 
 { #category : 'stepping' }
 OpinionDynamics >> step [
-"daily step of 24 oneHourSteps"
+	"daily step of 24 oneHourSteps"
+
 	<control>
-	
+	hourOfDay := (hourOfDay + 1) \\ 24.
 ]
