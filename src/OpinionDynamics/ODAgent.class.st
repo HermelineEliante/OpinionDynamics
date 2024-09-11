@@ -3,6 +3,132 @@ Class {
 	#superclass : 'CMAgent',
 	#traits : 'TCMLocated',
 	#classTraits : 'TCMLocated classTrait',
+	#instVars : [
+		'home',
+		'work',
+		'socialPlace'
+	],
 	#category : 'OpinionDynamics',
 	#package : 'OpinionDynamics'
 }
+
+{ #category : 'control' }
+ODAgent >> allAgentsFromHome [
+	"returns a collection of agents situated at work"
+
+	
+	^ self allAgentsFromZone: 'home'
+]
+
+{ #category : 'control' }
+ODAgent >> allAgentsFromSocialPlace [
+	"returns a collection of agents situated at work"
+
+	
+	^ self allAgentsFromZone: 'socialPlace'
+]
+
+{ #category : 'control' }
+ODAgent >> allAgentsFromWork [
+	"returns a collection of agents situated at work"
+
+	"    ^ self allAgentsFromZone: 'work'   "
+	| listOfAgents |
+	listOfAgents := OrderedCollection new.
+	self work do: [ :pla | listOfAgents addAll: pla patch allOccupants ].
+	listOfAgents remove: self ifAbsent: [ nil ].
+	^ listOfAgents
+]
+
+{ #category : 'control' }
+ODAgent >> allAgentsFromZone: aPlaceString [
+	| listOfAgents |
+	listOfAgents := OrderedCollection new.
+	(self perform: aPlaceString asSymbol) do: [ :pla | listOfAgents addAll: pla patch allOccupants ].
+	listOfAgents remove: self ifAbsent: [ nil ].
+	^ listOfAgents
+	
+]
+
+{ #category : 'control' }
+ODAgent >> allCitizenFromHome [
+	^self allAgentsFromHome select: [ :ag| ag class = ODCitizen ]
+]
+
+{ #category : 'control' }
+ODAgent >> allCitizenFromSocialPlace [
+
+	^ self allCitizenFromSocialPlace select: [ :ag | ag class = ODCitizen ]
+
+
+
+	
+
+]
+
+{ #category : 'control' }
+ODAgent >> allCitizenFromWork [
+
+	^ self allCitizenFromWork select: [ :ag | ag class = ODCitizen ]
+]
+
+{ #category : 'control' }
+ODAgent >> goHome [
+
+	self moveTo: (self selectRandomlyFrom: home) patch
+]
+
+{ #category : 'control' }
+ODAgent >> goSocialPlace [
+
+	self moveTo: (self selectRandomlyFrom: socialPlace) patch
+]
+
+{ #category : 'control' }
+ODAgent >> goWork [
+
+	self moveTo: (self selectRandomlyFrom: work) patch
+]
+
+{ #category : 'accessing' }
+ODAgent >> home [
+
+	^ home
+]
+
+{ #category : 'accessing' }
+ODAgent >> home: anObject [
+
+	home := anObject
+]
+
+{ #category : 'control' }
+ODAgent >> initialize [
+
+	super initialize.
+	home := OrderedCollection new . work := OrderedCollection new . socialPlace := OrderedCollection new 
+]
+
+{ #category : 'accessing' }
+ODAgent >> socialPlace [
+
+	^ socialPlace
+]
+
+{ #category : 'accessing' }
+ODAgent >> socialPlace: anObject [
+
+	socialPlace := anObject
+]
+
+{ #category : 'accessing' }
+ODAgent >> work [
+
+	^ work
+]
+
+{ #category : 'accessing' }
+ODAgent >> work: anObject [
+
+	work := anObject
+]

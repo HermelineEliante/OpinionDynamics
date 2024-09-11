@@ -9,9 +9,25 @@ Class {
 	#package : 'OpinionDynamics'
 }
 
+{ #category : 'as yet unclassified' }
+ODCitizen >> beConvinced [
+
+	opinion := true
+]
+
+{ #category : 'control' }
+ODCitizen >> initialize [
+
+	super initialize.
+	opinion := false
+]
+
 { #category : 'accessing' }
 ODCitizen >> pov [
 
 	<pov>
-	^ CMPointOfView color: CMColor red
+
+	^ CMPointOfView
+		color: CMColor red
+		shape: (opinion ifTrue: [ #star ] ifFalse: [ #circle ] )
 ]
