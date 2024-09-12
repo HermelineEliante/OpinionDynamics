@@ -42,13 +42,13 @@ ODAgent >> allAgentsFromWork [
 
 { #category : 'control' }
 ODAgent >> allAgentsFromZone: aPlaceString [
+
 	| listOfAgents place |
 	listOfAgents := OrderedCollection new.
 	place := self perform: aPlaceString asSymbol.
 	listOfAgents addAll: (place cells flatCollect: #allOccupants).
 	listOfAgents remove: self ifAbsent: [ nil ].
 	^ listOfAgents
-	
 ]
 
 { #category : 'control' }
@@ -114,6 +114,18 @@ ODAgent >> isAtSocialPlace [
 { #category : 'testing' }
 ODAgent >> isAtWork [
 	^self currentPlace = ODWork 
+]
+
+{ #category : 'testing' }
+ODAgent >> isCitizen [
+
+	^ false
+]
+
+{ #category : 'testing' }
+ODAgent >> isPolitician [
+
+	^ false
 ]
 
 { #category : 'accessing' }

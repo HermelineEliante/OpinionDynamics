@@ -21,6 +21,18 @@ ODPlace >> cells: anObject [
 	cells := anObject
 ]
 
+{ #category : 'testing' }
+ODPlace >> citizens [
+
+	^ (cells flatCollect: #allOccupants) select: #isCitizen
+]
+
+{ #category : 'testing' }
+ODPlace >> hasCitizens [
+
+	^ self citizens isNotEmpty 
+]
+
 { #category : 'initialization' }
 ODPlace >> initialize [
 

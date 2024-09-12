@@ -38,6 +38,12 @@ ODCitizen >> initialize [
 ]
 
 { #category : 'testing' }
+ODCitizen >> isCitizen [
+
+	^ true
+]
+
+{ #category : 'testing' }
 ODCitizen >> isConvinced [
 
 	^ opinion
