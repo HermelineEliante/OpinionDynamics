@@ -117,6 +117,14 @@ ODAgent >> isAtWork [
 ]
 
 { #category : 'accessing' }
+ODAgent >> place [
+
+	^ { work . home . socialPlace }
+		detect: [ :place | place cells includes: self patch ]
+		ifNone: [ nil ]
+]
+
+{ #category : 'accessing' }
 ODAgent >> socialPlace [
 
 	^ socialPlace

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'opinion',
 		'count',
-		'isSocial'
+		'isSocial',
+		'place'
 	],
 	#category : 'OpinionDynamics',
 	#package : 'OpinionDynamics'
@@ -21,11 +22,18 @@ ODCitizen >> goSocialPlace [
 	isSocial ifTrue: [ super goSocialPlace ]
 ]
 
+{ #category : 'as yet unclassified' }
+ODCitizen >> incrementNumberOfInteractions [
+
+	count := count + 1
+]
+
 { #category : 'control' }
 ODCitizen >> initialize [
 
 	super initialize.
 	opinion := false.
+	count := 0
 	"isSocial := self random > 0.5"
 ]
 
@@ -45,6 +53,13 @@ ODCitizen >> isSocial [
 ODCitizen >> isSocial: anObject [
 
 	isSocial := anObject
+]
+
+{ #category : 'as yet unclassified' }
+ODCitizen >> numberOfInteractions [
+
+	^count 
+
 ]
 
 { #category : 'accessing' }

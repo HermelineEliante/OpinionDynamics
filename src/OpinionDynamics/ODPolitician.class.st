@@ -20,8 +20,23 @@ ODPolitician >> chooseCitizen [
 
 { #category : 'as yet unclassified' }
 ODPolitician >> convince: aCitizen [
-"The probability of a citizen changing opinion depends on their confidence and previous interactions (≥ 3)."
-	aCitizen beConvinced
+	"ODPolitician convince a Citizen"
+
+	| probability |
+	"la probabilité est définie en fonction du lieu où se trouve le citoyen"
+	probability := aCitizen place class
+		               caseOf: {
+				               ([ ODHome ] -> [ 0 ]).
+				               ([ ODWork ] -> [ 0.10 ]).
+				               ([ ODSocialPlace ] -> [ 0.25 ]) }
+		               otherwise: [ ^ 0 ].
+
+	"Incrémenter le nombre d'interactions"
+	aCitizen incrementNumberOfInteractions .
+
+	"Si le citoyen a eu au moins 3 interactions et que la probabilité est favorable, il est convaincu"
+	(aCitizen numberOfInteractions >= 3 and: [ Random new next < probability ]) ifTrue: [
+		aCitizen beConvinced ]
 ]
 
 { #category : 'control' }
