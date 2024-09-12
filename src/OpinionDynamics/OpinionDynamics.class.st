@@ -8,7 +8,8 @@ Class {
 		'home',
 		'work',
 		'socialPlace',
-		'hourOfDay'
+		'hourOfDay',
+		'stepWhenEveryoneGotConvinced'
 	],
 	#classInstVars : [
 		'intialSizeCitizens',
@@ -160,6 +161,14 @@ OpinionDynamics >> initialize [
 	politicians := OrderedCollection new.
 	citizens := OrderedCollection new.
 	cells := OrderedCollection new.
+	
+	stepWhenEveryoneGotConvinced := 1
+]
+
+{ #category : 'testing' }
+OpinionDynamics >> isEveryoneConvinced [
+
+	^ citizens allSatisfy: #isConvinced
 ]
 
 { #category : 'probes' }
@@ -174,12 +183,13 @@ OpinionDynamics >> oneHourStep [
 	"interaction process for the politicals"
 
 	<control>
+	self isEveryoneConvinced ifFalse: [
+		stepWhenEveryoneGotConvinced := stepWhenEveryoneGotConvinced + 1 ].
+	
 	hourOfDay := hourOfDay + 1 \\ 24.
 
 	(hourOfDay between: 7 and: 12)
-		ifTrue: [
-			"self halt."
-			self allAgents do: #goWork ]
+		ifTrue: [ "self halt." self allAgents do: #goWork ]
 		ifFalse: [
 			(hourOfDay between: 12 and: 14)
 				ifTrue: [ self allAgents do: #goSocialPlace ]
@@ -218,4 +228,11 @@ OpinionDynamics >> step [
 
 	<control>
 	hourOfDay := (hourOfDay + 1) \\ 24.
+]
+
+{ #category : 'probes' }
+OpinionDynamics >> stepsToConvinceEveryone [
+
+	<probeNamed: 'Steps to convince everyone' color: '2980B9'>
+	^ stepWhenEveryoneGotConvinced
 ]
