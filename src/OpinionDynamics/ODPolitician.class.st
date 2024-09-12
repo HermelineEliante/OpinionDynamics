@@ -20,8 +20,8 @@ ODPolitician >> chooseCitizen [
 
 { #category : 'as yet unclassified' }
 ODPolitician >> convince: aCitizen [
-	
-	aCitizen beConvinced 
+"The probability of a citizen changing opinion depends on their confidence and previous interactions (≥ 3)."
+	aCitizen beConvinced
 ]
 
 { #category : 'control' }
@@ -38,23 +38,6 @@ ODPolitician >> interactionProcess [
 	anAgent := self chooseCitizen.
 	anAgent ifNil: [ ^self ].
 	self convince: anAgent
-]
-
-{ #category : 'testing' }
-ODPolitician >> isAtHome [
-
-	^ self currentPlace = ODHome 
-]
-
-{ #category : 'testing' }
-ODPolitician >> isAtSocialPlace [
-
-	^ self currentPlace = ODSocialPlace 
-]
-
-{ #category : 'testing' }
-ODPolitician >> isAtWork [
-	^self currentPlace = ODWork 
 ]
 
 { #category : 'accessing' }

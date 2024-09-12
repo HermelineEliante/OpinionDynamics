@@ -35,7 +35,7 @@ ODAgent >> allAgentsFromWork [
 	"    ^ self allAgentsFromZone: 'work'   "
 	| listOfAgents |
 	listOfAgents := OrderedCollection new.
-	self work do: [ :pla | listOfAgents addAll: pla patch allOccupants ].
+	self work cells do: [ : cell | listOfAgents addAll: cell allOccupants ].
 	listOfAgents remove: self ifAbsent: [ nil ].
 	^ listOfAgents
 ]
@@ -59,18 +59,14 @@ ODAgent >> allCitizenFromHome [
 { #category : 'control' }
 ODAgent >> allCitizenFromSocialPlace [
 
-	^ self allCitizenFromSocialPlace select: [ :ag | ag class = ODCitizen ]
-
-
-
-	
-
+	^ self allAgentsFromSocialPlace select: [ :ag |
+		  ag class = ODCitizen ]
 ]
 
 { #category : 'control' }
 ODAgent >> allCitizenFromWork [
 
-	^ self allCitizenFromWork select: [ :ag | ag class = ODCitizen ]
+	^ self allAgentsFromWork select: [ :ag | ag class = ODCitizen ]
 ]
 
 { #category : 'control' }
@@ -101,6 +97,23 @@ ODAgent >> home [
 ODAgent >> home: anObject [
 
 	home := anObject
+]
+
+{ #category : 'testing' }
+ODAgent >> isAtHome [
+
+	^ self currentPlace = ODHome 
+]
+
+{ #category : 'testing' }
+ODAgent >> isAtSocialPlace [
+
+	^ self currentPlace = ODSocialPlace 
+]
+
+{ #category : 'testing' }
+ODAgent >> isAtWork [
+	^self currentPlace = ODWork 
 ]
 
 { #category : 'accessing' }
